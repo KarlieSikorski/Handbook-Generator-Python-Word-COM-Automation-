@@ -6,19 +6,31 @@ Overview
 This project was developed at SAIC as part of an initiative to modernize legacy Visual Basic scripts by converting them into Python. The script automates the process of generating a complete Microsoft Word handbook from a collection of HTML files.
 
 The resulting document includes:
+
   A Title Page
+  
   A dynamically generated Table of Contents (TOC)
+  
   Multiple chapters sourced from HTML content
+  
   Student Handouts inserted sequentially
+  
   Specialized lesson modules (M270A1 and M142) added with TOC references
+  
 By leveraging the pywin32 library, the script programmatically controls Word via COM automation, ensuring consistent formatting, pagination, and TOC alignment.
+
 
 Key Features
 📄 Automated Word Document Creation – Opens Word, creates a new document, and manages content insertion.
+
 📑 Dynamic Table of Contents – Titles and page numbers automatically aligned with right-margin tab stops.
+
 📂 HTML Importing – Inserts chapters and lesson content directly from .htm / .html files.
+
 ✂️ Section & Page Break Management – Ensures each section starts cleanly on a new page.
+
 🧾 Student Handouts Support – Iteratively loads all lesson handouts (e.g., lesson0.htm to lesson100.htm).
+
 🚀 M270A1 & M142 Lesson Modules – Imports specialized training lessons into the handbook with single TOC entries.
 
 How It Works
