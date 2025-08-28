@@ -7,15 +7,11 @@ This project was developed at SAIC as part of an initiative to modernize legacy 
 
 The resulting document includes:
 
-    A Title Page
-  
-    A dynamically generated Table of Contents (TOC)
-  
-     Multiple chapters sourced from HTML content
-  
-    Student Handouts inserted sequentially
-  
-    Specialized lesson modules (M270A1 and M142) added with TOC references
+   ⚫ A Title Page
+   ⚫ A dynamically generated Table of Contents (TOC)
+   ⚫ Multiple chapters sourced from HTML content
+   ⚫Student Handouts inserted sequentially 
+   ⚫Specialized lesson modules (M270A1 and M142) added with TOC references
   
 By leveraging the pywin32 library, the script programmatically controls Word via COM automation, ensuring consistent formatting, pagination, and TOC alignment.
 
