@@ -7,20 +7,21 @@ This project was developed at SAIC as part of an initiative to modernize legacy 
 
 The resulting document includes:
 
-  A Title Page
+    A Title Page
   
-  A dynamically generated Table of Contents (TOC)
+    A dynamically generated Table of Contents (TOC)
   
-  Multiple chapters sourced from HTML content
+     Multiple chapters sourced from HTML content
   
-  Student Handouts inserted sequentially
+    Student Handouts inserted sequentially
   
-  Specialized lesson modules (M270A1 and M142) added with TOC references
+    Specialized lesson modules (M270A1 and M142) added with TOC references
   
 By leveraging the pywin32 library, the script programmatically controls Word via COM automation, ensuring consistent formatting, pagination, and TOC alignment.
 
 
 Key Features
+
 📄 Automated Word Document Creation – Opens Word, creates a new document, and manages content insertion.
 
 📑 Dynamic Table of Contents – Titles and page numbers automatically aligned with right-margin tab stops.
@@ -33,12 +34,19 @@ Key Features
 
 🚀 M270A1 & M142 Lesson Modules – Imports specialized training lessons into the handbook with single TOC entries.
 
+
 How It Works
+
   Title Page – Inserts a pre-defined HTML file as the cover/title page.
+  
   Table of Contents – Adds a TOC header and dynamically updates entries as chapters/lessons are imported.
+  
   Chapters – Imports core chapters such as System Overview, Student Console Operations, Special Functions, etc.
+  
   Student Handouts – Sequentially inserts all available lesson handouts from a designated folder.
+  
   Advanced Lessons – Adds M270A1 and M142 lesson modules as distinct handbook sections.
+  
   Cleanup – Removes extra breaks or spacing to finalize the document.
 
 Requirements
