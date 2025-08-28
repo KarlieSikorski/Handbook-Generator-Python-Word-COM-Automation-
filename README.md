@@ -7,15 +7,15 @@ This project was developed at SAIC as part of an initiative to modernize legacy 
 
 The resulting document includes:
 
-   ⚫ A Title Page
+   ▪️ A Title Page
    
-   ⚫ A dynamically generated Table of Contents (TOC)
+   ▪️ A dynamically generated Table of Contents (TOC)
    
-   ⚫ Multiple chapters sourced from HTML content
+   ▪️ Multiple chapters sourced from HTML content
    
-   ⚫Student Handouts inserted sequentially 
+   ▪️Student Handouts inserted sequentially 
    
-   ⚫Specialized lesson modules (M270A1 and M142) added with TOC references
+   ▪️Specialized lesson modules (M270A1 and M142) added with TOC references
    
   
 By leveraging the pywin32 library, the script programmatically controls Word via COM automation, ensuring consistent formatting, pagination, and TOC alignment.
@@ -38,38 +38,52 @@ Key Features
 
 How It Works
 
-  Title Page – Inserts a pre-defined HTML file as the cover/title page.
+  ▪️Title Page – Inserts a pre-defined HTML file as the cover/title page.
   
-  Table of Contents – Adds a TOC header and dynamically updates entries as chapters/lessons are imported.
+  ▪️Table of Contents – Adds a TOC header and dynamically updates entries as chapters/lessons are imported.
   
-  Chapters – Imports core chapters such as System Overview, Student Console Operations, Special Functions, etc.
+  ▪️Chapters – Imports core chapters such as System Overview, Student Console Operations, Special Functions, etc.
   
-  Student Handouts – Sequentially inserts all available lesson handouts from a designated folder.
+  ▪️Student Handouts – Sequentially inserts all available lesson handouts from a designated folder.
   
-  Advanced Lessons – Adds M270A1 and M142 lesson modules as distinct handbook sections.
+  ▪️Advanced Lessons – Adds M270A1 and M142 lesson modules as distinct handbook sections.
   
-  Cleanup – Removes extra breaks or spacing to finalize the document.
+  ▪️Cleanup – Removes extra breaks or spacing to finalize the document.
 
 Requirements
-  Python 3.x
-  Microsoft Word (Windows only)
-  pywin32 - (pip install pywin32)
+  
+  ▪️Python 3.x
+  
+  ▪️Microsoft Word (Windows only)
+  
+  ▪️pywin32 - (pip install pywin32)
  
 Example Workflow
-  Place your HTML content in the designated folder structure (e.g., handbook/, Student Handout/, M270A1/procedures/).
-  Update the file paths in the script (e.g., title_page_path, base_path).
-  Run the script:
-    python handbook_generator.py
-  Microsoft Word will open, populate the handbook, and display the result.
+
+  ▪️Place your HTML content in the designated folder structure (e.g., handbook/, Student Handout/, M270A1/procedures/).
+  
+  ▪️Update the file paths in the script (e.g., title_page_path, base_path).
+  
+  ▪️Run the script: python handbook_generator.py
+  
+  ▪️Microsoft Word will open, populate the handbook, and display the result.
 
 Potential Improvements
-  Make file paths configurable via JSON or YAML instead of hardcoding.
-  Add logging instead of print statements.
-  Error handling for missing files or invalid HTML.
-  Cross-platform compatibility (currently Windows + Word only).
+  
+  ▪️Make file paths configurable via JSON or YAML instead of hardcoding.
+  
+  ▪️Add logging instead of print statements.
+  
+  ▪️Error handling for missing files or invalid HTML.
+  
+  ▪️Cross-platform compatibility (currently Windows + Word only).
 
 Use Case
+
  Originally, this Python script was used to replace Visual Basic scripts that generated training handbooks for military systems. Converting to Python provided:
-    Easier maintainability
-    Compatibility with modern workflows
-    Improved automation and flexibility
+    
+    ▪️Easier maintainability
+    
+    ▪️Compatibility with modern workflows
+    
+    ▪️Improved automation and flexibility
