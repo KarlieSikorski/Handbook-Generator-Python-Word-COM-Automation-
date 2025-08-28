@@ -1,0 +1,302 @@
+#The following code has all DoD Program specific information removed and will therefore not run, but the process and components can still be seen as a demonstration of my previous work and skill.
+
+import os 
+import win32com.client as win32 
+
+# Initialize Word.Application 
+wdo = win32.Dispatch("Word.Application") 
+wdo.Visible = True # Set to True if you want to see the Word UI 
+
+# Access the Documents collection and create a new document 
+wdocs = wdo.Documents 
+new_doc = wdocs.Add() 
+# Obtain a reference to the selection wsel = wdo.Selection
+
+# Function to insert TOC entry into the placeholder range 
+def insert_toc_entry(chapter_title, chapter_page):
+  # Clear existing tab stops 
+  toc_end_range.ParagraphFormat.TabStops.ClearAll()
+  # Add a right-aligned tab stop at the right margin 
+  right_margin = new_doc.PageSetup.PageWidth -
+new_doc.PageSetup.LeftMargin - 
+new_doc.PageSetup.RightMargin
+
+toc_end_range.ParagraphFormat.TabStops.Add(Position=right_margin, Alignment=win32.constants.wdAlignTabRight)
+
+# Insert the TOC entry with a tab between the title and the page number 
+  toc_end_range.InsertAfter(f"{chapter_title}\t{chapter_page}\n")
+
+toc_end_range.Collapse(win32.constants.wdCollapseEnd) 
+# Collapse the range to the end for the next entry
+
+# Function to import .htm content and add chapter titles 
+def add_chapter_from_html(chapter_title, html_file_path): 
+  # Check if the file exists before trying to insert it 
+  if not os.path.exists(html_file_path): 
+    print(f"Error: The file '{html_file_path}' does not exist.") return
+
+# Remember the current position where the chapter starts 
+  chapter_start_range = wsel.Range.Start 
+
+# Insert the HTML file content 
+wsel.InsertFile(html_file_path) 
+
+# Move the selection to the end of the inserted content to get the page number 
+wsel.Collapse(win32.constants.wdCollapseEnd)
+
+# Get the page number where the chapter starts 
+  chapter_page = new_doc.Range(chapter_start_range, chapter_start_range).Information(win32.constants.wdActiveEndPageNumber) 
+
+# Insert the TOC entry for this chapter with the page number 
+insert_toc_entry(chapter_title, chapter_page)
+
+
+# 1. Insert the title page from an .htm file 
+title_page_path = r"C:INSERT LOCATION HERE" # Update the path for your title page 
+if os.path.exists(title_page_path): 
+  wsel.InsertFile(title_page_path) wsel.TypeParagraph() # Add a paragraph break after the title page content 
+    # Insert a page break after the title page wsel.InsertBreak(Type=win32.constants.wdPageBreak) 
+else: print(f"Error: The title page file '{title_page_path}' does not exist.")
+
+
+# 2. Insert the "Table of Contents" after the title page wsel.ParagraphFormat.Alignment = win32.constants.wdAlignParagraphCenter # Center align the text 
+wsel.Font.Bold = True # Make the font bold wsel.TypeText("TABLE OF CONTENTS\n")
+
+wsel.TypeParagraph() # Add space after the TOC title 
+wsel.ParagraphFormat.Alignment = win32.constants.wdAlignParagraphLeft # Reset alignment to left 
+wsel.TypeText("SECTION PAGE\n")
+
+wsel.TypeParagraph() # Add space after Section and Page Headings
+wsel.Font.Bold = False # Reset font to normal
+wsel.ParagraphFormat.Alignment = win32.constants.wdAlignParagraphLeft # Reset alignment to left
+toc_start_range = wsel.Range # Save the current position for the TOC
+wsel.TypeParagraph() # Add space after the TOC title
+toc_end_range = toc_start_range.Duplicate # Duplicate the range to append TOC entries later
+
+# Insert a page break after the Table of Contents
+wsel.InsertBreak(Type=win32.constants.wdPageBreak)
+
+
+# 3. Add chapters after the Table of Contents 
+add_chapter_from_html("SYSTEM OVERVIEW", r"C:INSERT LOCATION HERE.htm")
+
+add_chapter_from_html("STUDENT OPERATIONS", r"C:INSERT LOCATION HERE.htm")
+wsel.InsertBreak(Type=win32.constants.wdPageBreak)
+
+add_chapter_from_html("CONDITIONS", r"C:INSERT LOCATION HERE.htm")
+wsel.InsertBreak(Type=win32.constants.wdPageBreak)
+
+add_chapter_from_html("FUNCTIONS", r"C:INSERT LOCATION HERE.htm")
+wsel.InsertBreak(Type=win32.constants.wdPageBreak)
+
+add_chapter_from_html("INSTRUCTOR OPERATIONS", r"C:INSERT LOCATION HERE.htm")
+wsel.InsertBreak(Type=win32.constants.wdPageBreak)
+
+add_chapter_from_html("INSTALLATION AND SETUP", r"C:INSERT LOCATION HERE.htm")
+wsel.InsertBreak(Type=win32.constants.wdPageBreak)
+
+add_chapter_from_html("ACRONYMS", r"C:INSERT LOCATION HERE.html")
+wsel.InsertBreak(Type=win32.constants.wdPageBreak)
+
+
+# 4. Insert all of the student handouts base_path = r"C:INSERT LOCATION HERE"
+lesson_start_page = None # Variable to hold the page number where lessons start
+
+# Insert all of the student handouts
+for fileNumber in range(101):
+  fileName = f"lesson{fileNumber}.htm"
+  abs_file_path = os.path.join(base_path, fileName)
+
+  print(f"Checking file: {abs_file_path}") 
+  if os.path.exists(abs_file_path):
+    print(f"Inserting file: {abs_file_path}") try:
+      # Insert the student handout file 
+      wsel.InsertFile(abs_file_path)
+
+      # Check if this is the first lesson to capture the start page
+      if lesson_start_page is None:
+        lesson_start_page = new_doc.Range(wsel.Range.Start, wsel.Range.Start).Information(win32.constants.wdActiveEndPageNumber)
+
+      # Insert a page break after each lesson
+
+wsel.InsertBreak(Type=win32.constants.wdPageBreak) # Insert page break
+
+    except Exception as e:
+      print(f"Failed to insert file {abs_file_path}: {e}")
+  else:
+    print(f"File not found: {abs_file_path}")
+
+# Insert the TOC entry for "Student Handouts" with the captured page number 
+if lesson_start_page is not None: 
+  insert_toc_entry("STUDENT HANDOUTS", lesson_start_page)
+
+# Final cleanup: Simulate pressing the backspace key to remove extra line 
+wsel.TypeBackspace()
+
+
+# 5. Insert all of the Section 1 lessons
+
+# Remove the last inserted break if needed wsel.TypeBackspace()
+
+# Function to insert TOC entry with a tab-aligned page number
+def insert_toc_entry(title, page):
+  # Clear existing tab stops
+  toc_end_range.ParagraphFormat.TabStops.ClearAll() 
+  # Add a right-aligned tab stop at the right margin
+  right_margin = new_doc.PageSetup.PageWidth -
+new_doc.PageSetup.LeftMargin - 
+new_doc.PageSetup.RightMargin
+
+toc_end_range.ParagraphFormat.TabStops.Add(Position=right_margin, Alignment=win32.constants.wdAlignTabRight)
+
+  # Insert the TOC entry with a tab between the title and the page number
+  toc_end_range.InsertAfter(f"{title}\t{page}\n")
+
+toc_end_range.Collapse(win32.constants.wdCollapseEnd) 
+# Prepare for the next entry
+
+# Function to insert Section 1 lessons as a single TOC entry def insert_Section 1_lessons(): 
+  # Define base path and section break 
+  base_path = r"C:INSERT LOCATION HERE"
+
+wsel.InsertBreak(win32.constants.wdSectionBreakNextPage) # Start new section
+
+  # Capture starting page number for TOC entry 
+  chapter_start_range = wsel.Range.Start
+
+  # Insert main Section 1 TOC file if it exists 
+  toc_path = os.path.join(base_path, "TOC.htm") 
+  if os.path.exists(toc_path): 
+    wsel.InsertFile(toc_path) 
+    wsel.TypeParagraph() # Add space 
+    wsel.InsertBreak(win32.constants.wdPageBreak) # Page break after TOC file
+
+  # Insert each lesson in the 'procedures' folder lesson_base_path = os.path.join(base_path, "procedures") 
+  for file_number in range(101): 
+    lesson_path = os.path.join(lesson_base_path, f"{file_number}.html") 
+    if os.path.exists(lesson_path): 
+      wsel.InsertFile(lesson_path) 
+      wsel.TypeParagraph() 
+      wsel.InsertBreak(win32.constants.wdPageBreak)
+
+  # Determine the starting page number of the Section 1 lessons section 
+  start_page = new_doc.Range(chapter_start_range, chapter_start_range).Information(win32.constants.wdActiveEndPageNumber)
+
+  # Add a single TOC entry for all Section 1 lessons 
+  insert_toc_entry("SECTION 1 LESSONS", start_page)
+
+  # Insert Section 1 lessons and add to TOC 
+  insert_Section1_lessons() 
+  # Remove the last inserted break if needed 
+  wsel.TypeBackspace()
+
+
+# 6. Insert all of the Section 2 lessons
+
+# Function to insert TOC entry with a tab-aligned page number 
+def insert_toc_entry(title, page): 
+  # Clear existing tab stops
+  toc_end_range.ParagraphFormat.TabStops.ClearAll() 
+  # Add a right-aligned tab stop at the right margin right_margin = new_doc.PageSetup.PageWidth - 
+new_doc.PageSetup.LeftMargin - 
+new_doc.PageSetup.RightMargin
+
+toc_end_range.ParagraphFormat.TabStops.Add(Position=right_margin, Alignment=win32.constants.wdAlignTabRight)
+
+  # Insert the Section 2 TOC entry with a tab between the title and the page number 
+  toc_end_range.InsertAfter(f"{title}\t{page}\n")
+  
+toc_end_range.Collapse(win32.constants.wdCollapseEnd) 
+# Prepare for the next entry
+
+# Function to insert 
+lessons as a single TOC entry def insert_Section 2_lessons(): 
+  # Define base path and section break base_path = r"C:INSERT LOCATION HERE"
+
+wsel.InsertBreak(win32.constants.wdSectionBreakNextPage) # Start new section
+
+  # Capture starting page number for TOC entry chapter_start_range = wsel.Range.Start
+  
+  # Insert main TOC file if it exists 
+  toc_path = os.path.join(base_path, "TOC.htm") 
+  if os.path.exists(toc_path): 
+    wsel.InsertFile(toc_path) 
+    wsel.TypeParagraph() # Add space 
+    wsel.InsertBreak(win32.constants.wdPageBreak) 
+# Page break after TOC file
+  
+    # Insert each lesson in the 'procedures' folder lesson_base_path = os.path.join(base_path, "procedures") 
+    for file_number in range(101): 
+      lesson_path = os.path.join(lesson_base_path, f"{file_number}.html") 
+      if os.path.exists(lesson_path): 
+        wsel.InsertFile(lesson_path) 
+        wsel.TypeParagraph() 
+        wsel.InsertBreak(win32.constants.wdPageBreak)
+
+  # Determine the starting page number of the Section 2 lessons section
+  start_page = new_doc.Range(chapter_start_range, chapter_start_range).Information(win32.constants.wdActiveEndPageNumber)
+
+  # Add a single TOC entry for all Section 2 lessons 
+  insert_toc_entry("SECTION 2 LESSONS", start_page)
+
+# Insert Section 2 lessons and add to TOC insert_Section2_lessons()
+
+
+# 7. Formatting
+
+# Enable different headers/footers for sections
+first_section = new_doc.Sections(1)  # Access the first section
+
+# Clear page numbers for the first section (title and TOC pages)
+first_section.Footers(1).Range.Text = ""  # Clear footer
+first_section.PageSetup.DifferentFirstPageHeaderFooter = True
+
+# Add a section break after the TOC
+wsel.InsertBreak(Type=win32.constants.wdSectionBreakNextPage)
+
+# Access the second section and configure page numbering
+second_section = new_doc.Sections(2)  # Access the second section
+
+# Restart page numbering at 3
+second_section.Headers(1).PageNumbers.RestartNumberingAtSection = True
+second_section.Headers(1).PageNumbers.StartingNumber = 3
+
+# Add page numbers to the footer for all subsequent sections
+for section_index in range(2, new_doc.Sections.Count + 1):
+    section = new_doc.Sections(section_index)
+    footer = section.Footers(1)  # Access primary footer
+    
+    # Add page number field
+    footer.Range.Fields.Add(
+        Range=footer.Range, 
+        Type=win32.constants.wdFieldPage
+    )
+    
+    # Center align the page numbers
+    footer.Range.ParagraphFormat.Alignment = win32.constants.wdAlignParagraphCenter
+import os
+
+# Get the user's Documents folder dynamically
+documents_folder = os.path.join(os.environ["USERPROFILE"], "Documents")
+
+# File paths
+docx_path = os.path.join(documents_folder, "Handbook.docx")
+pdf_path = os.path.join(documents_folder, "Handbook.pdf")
+
+try:
+    # Save as .docx
+    new_doc.SaveAs2(FileName=docx_path, FileFormat=win32.constants.wdFormatXMLDocument)
+    print(f"Document saved as DOCX at {docx_path}")
+    
+    # Save as .pdf
+    new_doc.SaveAs2(FileName=pdf_path, FileFormat=win32.constants.wdFormatPDF)
+    print(f"Document saved as PDF at {pdf_path}")
+    
+    # Close the document
+    new_doc.Close(SaveChanges=False)  # Close without further changes
+
+    # Quit the Word application
+    wdo.Quit()
+    print("Word application closed.")
+except Exception as e:
+    print(f"An error occurred while saving the document: {e}")
