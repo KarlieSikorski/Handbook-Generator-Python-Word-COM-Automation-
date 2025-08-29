@@ -9,11 +9,11 @@ Automates importing content, structuring chapters, inserting lessons, and buildi
 This project was developed at **SAIC** as part of an initiative to modernize legacy Visual Basic scripts by converting them into Python. The script automates the process of generating a complete Microsoft Word handbook from a collection of HTML files.
 
 The resulting document includes:
-- ▪️ A Title Page  
-- ▪️ A dynamically generated Table of Contents (TOC)  
-- ▪️ Multiple chapters sourced from HTML content  
-- ▪️ Student Handouts inserted sequentially  
-- ▪️ Specialized lesson modules (M270A1 and M142) added with TOC references  
+-  A Title Page  
+-  A dynamically generated Table of Contents (TOC)  
+-  Multiple chapters sourced from HTML content  
+-  Student Handouts inserted sequentially  
+-  Specialized lesson modules (M270A1 and M142) added with TOC references  
 
 By leveraging the **pywin32** library, the script programmatically controls Word via COM automation, ensuring consistent formatting, pagination, and TOC alignment.
 
@@ -30,18 +30,18 @@ By leveraging the **pywin32** library, the script programmatically controls Word
 ---
 
 ## ⚙️ How It Works
-- ▪️ **Title Page** – Inserts a pre-defined HTML file as the cover/title page.  
-- ▪️ **Table of Contents** – Adds a TOC header and dynamically updates entries as chapters/lessons are imported.  
-- ▪️ **Chapters** – Imports core chapters such as *System Overview, Student Console Operations, Special Functions,* etc.  
-- ▪️ **Student Handouts** – Sequentially inserts all available lesson handouts from a designated folder.  
-- ▪️ **Advanced Lessons** – Adds *M270A1* and *M142* lesson modules as distinct handbook sections.  
-- ▪️ **Cleanup** – Removes extra breaks or spacing to finalize the document.  
+-  **Title Page** – Inserts a pre-defined HTML file as the cover/title page.  
+-  **Table of Contents** – Adds a TOC header and dynamically updates entries as chapters/lessons are imported.  
+-  **Chapters** – Imports core chapters such as *System Overview, Student Console Operations, Special Functions,* etc.  
+-  **Student Handouts** – Sequentially inserts all available lesson handouts from a designated folder.  
+-  **Advanced Lessons** – Adds *M270A1* and *M142* lesson modules as distinct handbook sections.  
+-  **Cleanup** – Removes extra breaks or spacing to finalize the document.  
 
 ---
 
 ## 🛠️ Requirements
-- ▪️ Python 3.x  
-- ▪️ Microsoft Word (Windows only)  
-- ▪️ `pywin32` → install via:  
+-  Python 3.x  
+-  Microsoft Word (Windows only)  
+-  `pywin32` → install via:  
   ```bash
   pip install pywin32
